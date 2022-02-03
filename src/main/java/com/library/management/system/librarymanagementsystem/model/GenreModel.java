@@ -15,6 +15,7 @@ public class GenreModel {
 
 
     public GenreModel() {
+        
     }
 
     public GenreModel(Long genre_id, String genre_type) {

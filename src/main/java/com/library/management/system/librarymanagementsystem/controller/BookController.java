@@ -1,9 +1,13 @@
 package com.library.management.system.librarymanagementsystem.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.model.BookModel;
+import com.library.management.system.librarymanagementsystem.model.GenreModel;
+import com.library.management.system.librarymanagementsystem.repository.BookRepository;
+import com.library.management.system.librarymanagementsystem.repository.GenreRepository;
 import com.library.management.system.librarymanagementsystem.service.BookService;
 import com.library.management.system.librarymanagementsystem.service.BookServiceImpl;
 import com.library.management.system.librarymanagementsystem.service.GenreService;
@@ -25,10 +29,6 @@ public class BookController {
     @Autowired
     private BookService bookService; 
 
-
-    // @Autowired
-    // private GenreService genreService; 
-
     @GetMapping("/")
     public List<BookModel> getBook() {
         return  bookService.getAllBook();
@@ -40,15 +40,13 @@ public class BookController {
     }
 
     @PostMapping("/")
-    public boolean addBook(@RequestBody BookModel book){
-        System.out.println(book);
-        // genreService.addGenre(genre)
+    public boolean addBook(@RequestBody HashMap<String,String> book){
         return bookService.addBook(book);
     }
 
     @DeleteMapping("/{book_id}")
-    public String deleteBook(@PathVariable("book_id") Integer book_id){
-        return "delete book " +book_id;
+    public boolean deleteBook(@PathVariable("book_id") Long book_id){
+        return bookService.deleteBook(book_id);
     }
 
     @PutMapping("/{book_id}")

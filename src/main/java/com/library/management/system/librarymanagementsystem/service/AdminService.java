@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public interface AdminService {
     
     public String addAdmin(AdminModel admin);

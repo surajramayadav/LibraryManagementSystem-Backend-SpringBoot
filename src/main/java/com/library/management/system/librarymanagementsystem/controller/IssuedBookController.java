@@ -1,4 +1,7 @@
 package com.library.management.system.librarymanagementsystem.controller;
+import java.util.HashMap;
+import java.util.List;
+
 import com.library.management.system.librarymanagementsystem.model.IssuedBookModel;
 import com.library.management.system.librarymanagementsystem.service.IssuedBookService;
 
@@ -18,20 +21,34 @@ public class IssuedBookController {
 
     @Autowired
     private IssuedBookService issuedBookService;
+
     @GetMapping("/")
-    public String getIssuedBook() {
-        return "Get issuedBook";
+    public List<IssuedBookModel> getIssuedBook() {
+        return issuedBookService.getAllIssuedBook();
     }
 
     @GetMapping("/{issuedBook_id}")
-    public String getIssuedBookById(@PathVariable("issuedBook_id") Integer issuedBook_id){
+    public String getIssuedBookById(@PathVariable("issuedBook_id") Long issuedBook_id){
         return "Get issuedBook Id"+issuedBook_id;
     }
 
+    @GetMapping("/admin/{admin_id}")
+    public IssuedBookModel getIssuedBookByAdmin(@PathVariable("admin_id") Long admin_id) {
+        return issuedBookService.getIssuedBookByAdmin(admin_id);
+    }
+    @GetMapping("/book/{book_id}")
+    public IssuedBookModel getIssuedBookByBook(@PathVariable("book_id") Long book_id) {
+        return issuedBookService.getIssuedBookByBook(book_id);
+    }
+    @GetMapping("/user/{user_id}")
+    public IssuedBookModel getIssuedBookByUser(@PathVariable("user_id") Long user_id)  {
+        return issuedBookService.getIssuedBookByUser(user_id);
+    }
+
+
     @PostMapping("/")
-    public boolean addIssuedBook(@RequestBody IssuedBookModel issuedBookModel){
-        System.out.println(issuedBookModel);
-        return issuedBookService.addIssueBook(issuedBookModel);
+    public boolean addIssuedBook(@RequestBody HashMap<String,String> issueData){
+        return issuedBookService.addIssueBook(issueData);
     }
 
     @DeleteMapping("/{issuedBook_id}")
@@ -42,5 +59,14 @@ public class IssuedBookController {
     @PutMapping("/{issuedBook_id}")
     public String updateIssuedBook(@PathVariable("issuedBook_id") Integer issuedBook_id){
         return "update issuedBook " +issuedBook_id;
+    }
+
+
+    @PutMapping("/return")
+    public boolean updateIssuedBook(@RequestBody HashMap<String,String> retunData){
+        long book_id=Long.parseLong(retunData.get("book_id"));
+        long user_id=Long.parseLong(retunData.get("user_id"));
+        String return_status=retunData.get("return_status");
+        return issuedBookService.retunIssuedBook(user_id,return_status,book_id);
     }
 }

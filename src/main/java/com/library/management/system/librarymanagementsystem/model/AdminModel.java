@@ -3,11 +3,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -43,10 +41,6 @@ public class AdminModel {
     }
 
 
-
-
-
-
     public Long getAdmin_id() {
         return admin_id;
     }
@@ -63,9 +57,9 @@ public class AdminModel {
         this.admin_username = admin_username;
     }
 
-    public String getAdmin_password() {
-        return admin_password;
-    }
+    // public String getAdmin_password() {
+    //     return admin_password;
+    // }
 
     public void setAdmin_password(String admin_password) {
         this.admin_password = admin_password;

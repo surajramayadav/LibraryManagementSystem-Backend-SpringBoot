@@ -18,18 +18,29 @@ public class UserModel {
     @Column(name = "user_address")
     private String user_address;
 
-   
+    @Column(name = "user_password",nullable = false)
+    private String user_password;   
+
     public UserModel() {
     }
 
-    public UserModel(Long user_id, String user_name, Long user_phone, String user_address,
-            List<IssuedBookModel> getAllIssuedBookByUser) {
+    public UserModel(Long user_id, String user_name, Long user_phone, String user_address, String user_password) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_phone = user_phone;
         this.user_address = user_address;
-        
+        this.user_password = user_password;
     }
+
+
+    // public String getUser_password() {
+    //     return user_password;
+    // }
+
+    public void setUser_password(String user_password) {
+        this.user_password = user_password;
+    }
+
 
     public Long getUser_id() {
         return user_id;

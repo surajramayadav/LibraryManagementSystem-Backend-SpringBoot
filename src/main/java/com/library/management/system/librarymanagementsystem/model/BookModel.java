@@ -32,7 +32,7 @@ public class BookModel {
     @Column(name = "book_author")
     private String book_author;
   
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "genre_id",nullable = false)
     private GenreModel genreModel;
 
@@ -44,7 +44,7 @@ public class BookModel {
 
 
     public BookModel(Long book_id, String book_name, String book_isbn, Long book_quantity, String book_author,
-            GenreModel genreModel) {
+        GenreModel genreModel) {
         this.book_id = book_id;
         this.book_name = book_name;
         this.book_isbn = book_isbn;
@@ -144,6 +144,10 @@ public class BookModel {
     public String toString() {
         return "BookModel [book_author=" + book_author + ", book_id=" + book_id + ", book_isbn=" + book_isbn
                 + ", book_name=" + book_name + ", book_quantity=" + book_quantity + ", genreModel=" + genreModel + "]";
+    }
+
+
+    public void setBook_quantity(String string) {
     }
     
 

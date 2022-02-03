@@ -1,7 +1,12 @@
 package com.library.management.system.librarymanagementsystem.model;
+
+
+import java.util.Date;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.library.management.system.librarymanagementsystem.utils.DateAddition;
 
 
 
@@ -13,20 +18,20 @@ public class IssuedBookModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "issuedbook_id")
     private Long issuedbook_id;
-    @Column(name = "issued_date",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ")
-    private String issued_date;
-    @Column(name = "return_date",columnDefinition = "TIMESTAMP ")
-    private String return_date;
-    @Column(name = "return_status",columnDefinition = "integer DEFAULT 0")
-    private Integer return_status;
+    @Column(name = "issued_date")
+    private String issued_date = DateAddition.getCurrentDate();
+    @Column(name = "return_date")
+    private String return_date = DateAddition.getReturnDate();
+    @Column(name = "return_status")
+    private String return_status = "not returned";
    
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "admin_id",nullable = false)
     private AdminModel adminModel;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "book_id",nullable = false)
     private BookModel bookModel;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private UserModel userModel;
 
@@ -35,8 +40,8 @@ public class IssuedBookModel {
     }
 
 
-    public IssuedBookModel(Long issuedbook_id, String issued_date, String return_date, Integer return_status,
-            AdminModel adminModel, BookModel bookModel, UserModel userModel) {
+    public IssuedBookModel(Long issuedbook_id, String issued_date, String return_date, String return_status,
+        AdminModel adminModel, BookModel bookModel, UserModel userModel) {
         this.issuedbook_id = issuedbook_id;
         this.issued_date = issued_date;
         this.return_date = return_date;
@@ -77,12 +82,12 @@ public class IssuedBookModel {
     }
 
 
-    public Integer getReturn_status() {
+    public String getReturn_status() {
         return return_status;
     }
 
 
-    public void setReturn_status(Integer return_status) {
+    public void setReturn_status(String return_status) {
         this.return_status = return_status;
     }
 

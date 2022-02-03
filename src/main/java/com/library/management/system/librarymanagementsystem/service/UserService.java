@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.model.UserModel;
 
+import org.springframework.stereotype.Service;
+@Service
 public interface UserService {
     public boolean addUser(UserModel user);
     public List<UserModel> getAllUser();

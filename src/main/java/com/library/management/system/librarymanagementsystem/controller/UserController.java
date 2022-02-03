@@ -37,8 +37,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{user_id}")
-    public String deleteUser(@PathVariable("user_id") Integer user_id){
-        return "delete user " +user_id;
+    public boolean deleteUser(@PathVariable("user_id") Integer user_id){
+        return userService.deleteUser(user_id);
     }
 
     @PutMapping("/{user_id}")

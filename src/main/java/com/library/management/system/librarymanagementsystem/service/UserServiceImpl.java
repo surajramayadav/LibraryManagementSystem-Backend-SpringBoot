@@ -19,26 +19,26 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(UserModel user) {
         boolean flag = false;
         try {
-            if(userRepo.save(user) != null){
-                flag=true;
+            if (userRepo.save(user) != null) {
+                flag = true;
             }
         } catch (Exception e) {
             // TODO: handle exception
         }
         return flag;
-       
+
     }
 
     @Override
     public List<UserModel> getAllUser() {
-        
+
         return userRepo.findAll();
     }
 
     @Override
     public Optional<UserModel> getUserById(long user_id) {
-       Optional<UserModel> getUser=userRepo.findById(user_id);
-       return getUser;
+        Optional<UserModel> getUser = userRepo.findById(user_id);
+        return getUser;
     }
 
     @Override
@@ -49,8 +49,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(long user_id) {
-        // TODO Auto-generated method stub
-        return false;
+        boolean flag = false;
+        userRepo.deleteById(user_id);
+        if(!userRepo.findById(user_id).isPresent()){
+            flag =true;
+        }
+        return flag;
     }
-    
+
 }
