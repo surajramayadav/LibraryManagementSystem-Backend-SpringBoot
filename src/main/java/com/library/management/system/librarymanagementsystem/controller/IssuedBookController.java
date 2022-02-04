@@ -22,16 +22,19 @@ public class IssuedBookController {
     @Autowired
     private IssuedBookService issuedBookService;
 
+    // get all issuedBook 
     @GetMapping("/")
     public List<IssuedBookModel> getIssuedBook() {
         return issuedBookService.getAllIssuedBook();
     }
 
+    // get issuedbook by id
     @GetMapping("/{issuedBook_id}")
     public String getIssuedBookById(@PathVariable("issuedBook_id") Long issuedBook_id){
         return "Get issuedBook Id"+issuedBook_id;
     }
 
+    // get issued book by ids
     @GetMapping("/admin/{admin_id}")
     public IssuedBookModel getIssuedBookByAdmin(@PathVariable("admin_id") Long admin_id) {
         return issuedBookService.getIssuedBookByAdmin(admin_id);
@@ -46,22 +49,28 @@ public class IssuedBookController {
     }
 
 
+    // issua a book
+
     @PostMapping("/")
     public boolean addIssuedBook(@RequestBody HashMap<String,String> issueData){
         return issuedBookService.addIssueBook(issueData);
     }
 
+    // delete issued book
     @DeleteMapping("/{issuedBook_id}")
     public String deleteIssuedBook(@PathVariable("issuedBook_id") Integer issuedBook_id){
         return "delete issuedBook " +issuedBook_id;
     }
 
+
+    // update issued book
     @PutMapping("/{issuedBook_id}")
     public String updateIssuedBook(@PathVariable("issuedBook_id") Integer issuedBook_id){
         return "update issuedBook " +issuedBook_id;
     }
 
 
+    // return issued book
     @PutMapping("/return")
     public boolean updateIssuedBook(@RequestBody HashMap<String,String> retunData){
         long book_id=Long.parseLong(retunData.get("book_id"));

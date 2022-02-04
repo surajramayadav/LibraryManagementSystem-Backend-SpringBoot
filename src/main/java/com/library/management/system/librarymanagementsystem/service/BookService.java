@@ -15,9 +15,7 @@ public interface BookService {
    public boolean updateBook(String book_name,String book_isbn,String book_author,String genre_type,Long book_quantity, Long book_id);
    public List<BookModel> getAllBook();
    public Optional<BookModel> getBookById(Long book_id); 
-
-   public HashMap<String,String> countBookByGenre();
    public Optional<BookModel> searchBookName(String book_name);
    public boolean checkBookIsExits(String book_name);
-
+   public boolean updateBookQuantity(String book_name,long book_quantity);
 }

@@ -17,6 +17,8 @@ public interface IssuedBookRepository extends JpaRepository<IssuedBookModel,Long
     // @Query(value = "insert into issued_book (return_date,admin_id,book_id,user_id) VALUES (?1,?2,?3,?4)", nativeQuery = true)
     // public void issuaABook(String return_date,long admin_id,long book_id,long user_id);
 
+    // Get iisued Book by book id admin id and user id 
+
     @Query(value = "SELECT * FROM issued_book res where res.admin_id = ?1", nativeQuery = true)
     public IssuedBookModel getIssuedbookByAdmin(long admin_id);
 
@@ -26,10 +28,14 @@ public interface IssuedBookRepository extends JpaRepository<IssuedBookModel,Long
     @Query(value = "SELECT * FROM issued_book res where res.user_id = ?1", nativeQuery = true)
     public IssuedBookModel getIssuedbookByUser(long user_id);
 
+    // update return status
     @Transactional
     @Modifying
     @Query(value = "update issued_book a set a.return_status = ?1 where a.user_id = ?2", nativeQuery = true)
     public void returnIssuedBook(String return_status,long user_id);
+
+
+    // delete issuebook by admin user book ids
 
     @Transactional
     @Modifying

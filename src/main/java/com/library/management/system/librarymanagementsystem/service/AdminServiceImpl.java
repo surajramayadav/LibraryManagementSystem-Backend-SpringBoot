@@ -1,17 +1,21 @@
 package com.library.management.system.librarymanagementsystem.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
 import com.library.management.system.librarymanagementsystem.repository.AdminRepository;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
+import com.library.management.system.librarymanagementsystem.utils.CryptoGraphy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class AdminServiceImpl implements AdminService {
+
     @Autowired
     private AdminRepository adminrepo;
 
@@ -19,18 +23,26 @@ public class AdminServiceImpl implements AdminService {
     private IssuedBookRepository issuedRepo;
 
     @Override
-    public String addAdmin(AdminModel admin) {
-        try {
-            System.out.println(admin);
-            adminrepo.save(admin);
-        } catch (Exception e) {
-            // TODO: handle exception
+    public boolean addAdmin(HashMap<String,String> admin) {
+        boolean flag = false;
+        CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        String encryptedPassword = cryptoGraphy.setEncrpytedData(admin.get("admin_password"));
+        // System.out.println(encryptedPassword);
+        AdminModel adminModel = new AdminModel();
+        adminModel.setAdmin_username(admin.get("admin_username"));
+        adminModel.setAdmin_role(admin.get("admin_role"));
+        adminModel.setAdmin_password(encryptedPassword);
+        
+        if (adminrepo.save(adminModel) != null) {
+            flag = true;
         }
-        return "added";
+        return flag;
+
     }
 
     @Override
     public List<AdminModel> getAllAdmin() {
+       
         return adminrepo.findAll();
     }
 
@@ -89,6 +101,34 @@ public class AdminServiceImpl implements AdminService {
         } else {
             System.out.println("Admin Not Found");
         }
+        return flag;
+    }
+
+    @Override
+    public boolean loginAdmin(String admin_username, String admin_password) {
+        boolean flag = false;
+        String encryptedPassword = adminrepo.loginWithAdmin(admin_username);
+        if (encryptedPassword.length() != 0) {
+            CryptoGraphy cryptoGraphy = new CryptoGraphy();
+            String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
+            if (decryptedPassword.equals(admin_password)) {
+                flag = true;
+            } else {
+                System.out.println("Username And Password Invalid");
+            }
+        } else {
+            System.out.println("Username And Password Invalid");
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean checkAdminIsExits(String admin_username) {
+       boolean flag=false;
+       AdminModel admin=adminrepo.checkAdminIsExits(admin_username);
+       if(admin != null){
+           flag=true;
+       }
         return flag;
     }
 

@@ -28,31 +28,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean addBook(HashMap<String, String> book) {
         boolean flag = false;
-        System.out.println(book.get("book_name"));
-        BookModel bookData = bookRepository.getBookByName(book.get("book_name"));
-        // System.out.println(bookData);
-
-        if (bookData != null) {
-            if (bookData.getBook_name().equals(book.get("book_name"))) {
-                long quantity = bookRepository.getBookQuantity(book.get("book_name"));
-                System.out.println(quantity);
-                long sum = quantity + Long.parseLong(book.get("book_quantity"));
-                System.out.println(bookData.getBook_id());
-                System.out.println(sum);
-                bookRepository.updateBookQuantity(sum, bookData.getBook_id());
-                System.out.println("Book Quantity updated");
-                flag = true;
-            }
-
-        } else {
             GenreModel genreData = genreRepository.getGenreDataByType(book.get("genre_type"));
-            System.out.println(genreData);
+            // System.out.println(genreData);
             if (genreData != null) {
 
-                System.out.println("no");
                 if (genreData.getGenre_type().equals(book.get("genre_type"))) {
-
-                    System.out.println("no");
                     BookModel newBook = new BookModel();
                     newBook.setBook_author(book.get("book_author"));
                     newBook.setBook_isbn(book.get("book_isbn"));
@@ -72,7 +52,7 @@ public class BookServiceImpl implements BookService {
                 newGenre.setGenre_type(book.get("genre_type"));
                 if (genreRepository.save(newGenre) != null) {
                     GenreModel newGenreData = genreRepository.getGenreDataByType(book.get("genre_type"));
-                    System.out.print(newGenre);
+                    // System.out.print(newGenre);
                     BookModel newBook = new BookModel();
                     newBook.setBook_author(book.get("book_author"));
                     newBook.setBook_isbn(book.get("book_isbn"));
@@ -86,9 +66,7 @@ public class BookServiceImpl implements BookService {
 
                 }
             }
-        }
-        // genreService.addGenre(genre)
-        // return bookRepository.addBook(book);
+        
         return flag;
     }
 
@@ -125,11 +103,7 @@ public class BookServiceImpl implements BookService {
         return getBook;
     }
 
-    @Override
-    public HashMap<String, String> countBookByGenre() {
-        return bookRepository.countBookByGenre();
 
-    }
 
     @Override
     public Optional<BookModel> searchBookName(String book_name) {
@@ -173,6 +147,28 @@ public class BookServiceImpl implements BookService {
         } else {
             System.out.println("Book Not Found");
         }
+        return flag;
+    }
+
+
+    @Override
+    public boolean updateBookQuantity(String book_name, long book_quantity) {
+        boolean flag=false;
+         BookModel bookData = bookRepository.getBookByName(book_name);
+        // System.out.println(bookData);
+        if (bookData != null) {
+            if (bookData.getBook_name().equals(book_name)) {
+                long quantity = bookRepository.getBookQuantity(book_name);
+                // System.out.println(quantity);
+                long sum = quantity + book_quantity;
+                // System.out.println(bookData.getBook_id());
+                // System.out.println(sum);
+                bookRepository.updateBookQuantity(sum, bookData.getBook_id());
+                System.out.println("Book Quantity updated");
+                flag = true;
+            }
+
+        } 
         return flag;
     }
 
