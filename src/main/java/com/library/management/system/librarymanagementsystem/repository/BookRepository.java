@@ -30,5 +30,13 @@ public interface BookRepository extends JpaRepository<BookModel,Long> {
     @Query(value = "select gk.genre_type,count(*) as count from book bk inner join genre gk on bk.genre_id = gk.genre_id group by gk.genre_type", nativeQuery = true)
     public HashMap<String,String> countBookByGenre();
 
-   
+
+    @Query(value ="SELECT * FROM book res where res.book_name like ?1%", nativeQuery = true)
+    public Optional<BookModel>  searchBookName(String book_name);
+
+    
+    @Transactional
+    @Modifying
+    @Query(value ="update book a set a.book_name = ?1,a.book_isbn = ?2,a.book_quantity = ?3 ,a.book_author = ?4,a.genre_id = ?5  where a.book_id = ?6", nativeQuery = true)
+     void updatebookById(String book_name,String book_isbn,Long book_quantity,String book_author,Long genre_id,Long book_id);
 }

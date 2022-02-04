@@ -30,4 +30,19 @@ public interface IssuedBookRepository extends JpaRepository<IssuedBookModel,Long
     @Modifying
     @Query(value = "update issued_book a set a.return_status = ?1 where a.user_id = ?2", nativeQuery = true)
     public void returnIssuedBook(String return_status,long user_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from issued_book u where u.user_id = ?1", nativeQuery = true)
+    public void deleteIssuedbookByUser(long user_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from issued_book u where u.book_id = ?1", nativeQuery = true)
+    public void deleteIssuedbookByBook(long book_id);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "delete from issued_book u where u.admin_id = ?1", nativeQuery = true)
+    public void deleteIssuedbookByAdmin(long admin_id);
 }

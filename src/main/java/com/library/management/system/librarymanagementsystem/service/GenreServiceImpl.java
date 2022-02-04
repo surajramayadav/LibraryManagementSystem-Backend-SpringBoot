@@ -28,11 +28,13 @@ public class GenreServiceImpl implements GenreService {
     public long getGenreById(Long genre_id) {
         long genreid=0;
         Optional<GenreModel> getGnere = genreRepository.findById(genre_id);
-        System.out.println(getGnere);
+        // System.out.println(getGnere);
         if(getGnere.isPresent()){
             genreid=getGnere.get().getGenre_id();
+        }else{
+            System.out.println("Genre Not Found");   
         }
-        System.out.println(genreid);   
+        // System.out.println(genreid);   
         return genreid; 
     }
 

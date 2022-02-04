@@ -8,6 +8,7 @@ import com.library.management.system.librarymanagementsystem.model.BookModel;
 import com.library.management.system.librarymanagementsystem.model.GenreModel;
 import com.library.management.system.librarymanagementsystem.repository.BookRepository;
 import com.library.management.system.librarymanagementsystem.repository.GenreRepository;
+import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private GenreRepository genreRepository;
 
+
+    @Autowired
+    private IssuedBookRepository issuedRepo;
+    
     @Override
     public boolean addBook(HashMap<String, String> book) {
         boolean flag = false;
@@ -35,7 +40,7 @@ public class BookServiceImpl implements BookService {
                 System.out.println(bookData.getBook_id());
                 System.out.println(sum);
                 bookRepository.updateBookQuantity(sum, bookData.getBook_id());
-                System.out.println("Bookupadeted");
+                System.out.println("Book Quantity updated");
                 flag = true;
             }
 
@@ -90,17 +95,19 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean deleteBook(Long book_id) {
         boolean flag = false;
-        bookRepository.deleteById(book_id);
-        if(!bookRepository.findById(book_id).isPresent()){
-            flag =true;
+        
+        if (bookRepository.findById(book_id).isPresent()) {
+            // first delete Constarints
+
+            issuedRepo.deleteIssuedbookByBook(book_id);
+            bookRepository.deleteById(book_id);
+            if(!bookRepository.findById(book_id).isPresent()){  
+                flag = true;
+            }
+        }else{
+            System.out.println("Book Not Found"); 
         }
         return flag;
-    }
-
-    @Override
-    public boolean updateBook(Long book_id) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
@@ -112,13 +119,61 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<BookModel> getBookById(Long book_id) {
         Optional<BookModel> getBook = bookRepository.findById(book_id);
+        if(!getBook.isPresent()){
+            System.out.println("Book Not Found");
+        }
         return getBook;
     }
 
     @Override
     public HashMap<String, String> countBookByGenre() {
         return bookRepository.countBookByGenre();
-         
+
+    }
+
+    @Override
+    public Optional<BookModel> searchBookName(String book_name) {
+        return bookRepository.searchBookName(book_name);
+    }
+
+    @Override
+    public boolean checkBookIsExits(String book_name) {
+        boolean flag = false;
+        BookModel isBookExits = bookRepository.getBookByName(book_name);
+        if (isBookExits != null) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateBook(String book_name, String book_isbn, String book_author, String genre_type,
+            Long book_quantity, Long book_id) {
+        boolean flag = false;
+        Optional<BookModel> bookData = bookRepository.findById(book_id);
+        if (bookData.isPresent()) {
+            GenreModel genreModel = genreRepository.getGenreDataByType(genre_type);
+            if (genreModel != null) {
+                if (genreModel.getGenre_type().equals(genre_type)) {
+                    bookRepository.updatebookById(book_name, book_isbn, book_quantity, book_author,
+                            genreModel.getGenre_id(), book_id);
+                    flag = true;
+                }
+            } else {
+                // user enter new genre
+                GenreModel newGenre = new GenreModel();
+                newGenre.setGenre_type(genre_type);
+                if (genreRepository.save(newGenre) != null) {
+                    GenreModel getGenreModel = genreRepository.getGenreDataByType(genre_type);
+                    bookRepository.updatebookById(book_name, book_isbn, book_quantity, book_author,
+                            getGenreModel.getGenre_id(), book_id);
+                    flag = true;
+                }
+            }
+        } else {
+            System.out.println("Book Not Found");
+        }
+        return flag;
     }
 
 }

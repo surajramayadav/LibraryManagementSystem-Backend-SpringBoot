@@ -13,6 +13,9 @@ public interface AdminService {
     public String addAdmin(AdminModel admin);
     public List<AdminModel> getAllAdmin();
     public Optional<AdminModel> getAdminById(long admin_id);
-    public boolean updateAdmin(long admin_id);
     public boolean deleteAdmin(long admin_id);
+    public Optional<AdminModel> searchAdmin(String admin_username);
+    public boolean updateAdmin(String admin_username,String admin_role,long admin_id);
+    public boolean changeAdminPassword(String admin_password,long admin_id);
+    
 }

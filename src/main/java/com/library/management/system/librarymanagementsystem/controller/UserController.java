@@ -1,4 +1,5 @@
 package com.library.management.system.librarymanagementsystem.controller;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,13 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")
-    public Optional<UserModel> getUserById(@PathVariable("user_id") Integer user_id){
+    public Optional<UserModel> getUserById(@PathVariable("user_id") Long user_id){
         return userService.getUserById(user_id);
+    }
+
+    @GetMapping("/search/{user_name}")
+    public Optional<UserModel> searchUserName(@PathVariable("user_name") String user_name){
+        return userService.searchUser(user_name);
     }
 
     @PostMapping("/")
@@ -37,12 +43,18 @@ public class UserController {
     }
 
     @DeleteMapping("/{user_id}")
-    public boolean deleteUser(@PathVariable("user_id") Integer user_id){
+    public boolean deleteUser(@PathVariable("user_id") Long user_id){
         return userService.deleteUser(user_id);
     }
 
     @PutMapping("/{user_id}")
-    public String updateUser(@PathVariable("user_id") Integer user_id){
-        return "update user " +user_id;
+    public boolean updateUser(@PathVariable("user_id") Long user_id,@RequestBody HashMap<String,String> updateData){
+        return userService.updateUser(updateData.get("user_name"), updateData.get("user_phone"), updateData.get("user_address"), user_id);
+    }
+
+    @PutMapping("/password/{user_id}")
+    public boolean changeUserPassword(@PathVariable("user_id") Long user_id,@RequestBody HashMap<String,String> updatePassword){
+        // System.out.println(updatePassword);
+        return userService.changeUserPassword(updatePassword.get("user_password"), user_id);
     }
 }

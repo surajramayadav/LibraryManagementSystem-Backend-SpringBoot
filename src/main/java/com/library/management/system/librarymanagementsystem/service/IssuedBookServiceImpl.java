@@ -76,32 +76,39 @@ public class IssuedBookServiceImpl implements IssuedBookService {
 
     @Override
     public boolean updateIssueStatus() {
-        
         return false;
     }
 
     @Override
     public List<IssuedBookModel> getAllIssuedBook() {
-       
         return issueRepo.findAll();
     }
 
     @Override
     public IssuedBookModel getIssuedBookByAdmin(long admin_id) {
-        
-        return issueRepo.getIssuedbookByAdmin(admin_id);
+        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(admin_id);
+        if(issuedBookModel == null){
+            System.out.println("Issued Book Not Found");
+        }
+        return issuedBookModel;
     }
 
     @Override
     public IssuedBookModel getIssuedBookByBook(long book_id) {
-       
-        return issueRepo.getIssuedbookByBook(book_id);
+        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(book_id);
+        if(issuedBookModel == null){
+            System.out.println("Issued Book Not Found");
+        }
+        return issuedBookModel;
     }
 
     @Override
     public IssuedBookModel getIssuedBookByUser(long user_id) {
-       
-        return issueRepo.getIssuedbookByUser(user_id);
+        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(user_id);
+        if(issuedBookModel == null){
+            System.out.println("Issued Book Not Found");
+        }
+        return issuedBookModel;
     }
 
  

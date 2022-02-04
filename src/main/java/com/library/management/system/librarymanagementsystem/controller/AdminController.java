@@ -1,5 +1,6 @@
 package com.library.management.system.librarymanagementsystem.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,12 @@ public class AdminController {
         return adminService.getAdminById(admin_id);
     }
 
+    @GetMapping("/search/{admin_username}")
+    public Optional<AdminModel> getAdminById(@PathVariable("admin_username") String admin_username) {
+        return adminService.searchAdmin(admin_username);
+    }
+
+
     @PostMapping("/")
     public String addAdmin(@RequestBody AdminModel admin) {
         System.out.println(admin);
@@ -46,8 +53,15 @@ public class AdminController {
     }
 
     @PutMapping("/{admin_id}")
-    public String updateAdmin(@PathVariable("admin_id") Integer admin_id) {
-        return "update Admin " + admin_id;
+    public boolean updateAdmin(@PathVariable("admin_id") Long admin_id,@RequestBody HashMap<String,String> updateData) {
+        return adminService.updateAdmin(updateData.get("admin_username"), updateData.get("admin_role"), admin_id);
     }
+
+    @PutMapping("/password/{admin_id}")
+    public boolean changeAdminPassword(@PathVariable("admin_id") Long admin_id,@RequestBody HashMap<String,String> updatepassword) {
+        return adminService.changeAdminPassword(updatepassword.get("admin_password"), admin_id);
+    }
+
+    
 
 }

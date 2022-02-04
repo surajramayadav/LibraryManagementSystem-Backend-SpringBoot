@@ -11,7 +11,8 @@ public interface UserService {
     public boolean addUser(UserModel user);
     public List<UserModel> getAllUser();
     public Optional<UserModel> getUserById(long user_id);
-    public boolean updateUser(long user_id);
+    public boolean updateUser(String user_name,String user_phone,String user_address,long user_id);
     public boolean deleteUser(long user_id);
-
+    public Optional<UserModel> searchUser(String user_name);
+    public boolean changeUserPassword (String user_password,long user_id);
 }
