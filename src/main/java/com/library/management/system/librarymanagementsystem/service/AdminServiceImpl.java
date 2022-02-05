@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
 import com.library.management.system.librarymanagementsystem.repository.AdminRepository;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
@@ -51,6 +52,7 @@ public class AdminServiceImpl implements AdminService {
         Optional<AdminModel> adminData= adminrepo.findById(admin_id);
         if(!adminData.isPresent()){
             System.out.println("Admin Not Found");
+            throw new ResourceNotFoundException("Admin Not Found");
         }
         return adminData;
     }
@@ -68,6 +70,7 @@ public class AdminServiceImpl implements AdminService {
            
         } else {
             System.out.println("Admin Not Found");
+            throw new ResourceNotFoundException("Admin Not Found");
         }
         return flag;
     }
@@ -87,6 +90,7 @@ public class AdminServiceImpl implements AdminService {
             flag = true;
         } else {
             System.out.println("Admin Not Found");
+            throw new ResourceNotFoundException("Admin Not Found");
         }
         return flag;
     }
@@ -100,6 +104,7 @@ public class AdminServiceImpl implements AdminService {
             flag = true;
         } else {
             System.out.println("Admin Not Found");
+            throw new ResourceNotFoundException("Admin Not Found");
         }
         return flag;
     }
@@ -115,9 +120,11 @@ public class AdminServiceImpl implements AdminService {
                 flag = true;
             } else {
                 System.out.println("Username And Password Invalid");
+                throw new ResourceNotFoundException("Username And Password Invalid");
             }
         } else {
             System.out.println("Username And Password Invalid");
+            throw new ResourceNotFoundException("Username And Password Invalid");
         }
         return flag;
     }

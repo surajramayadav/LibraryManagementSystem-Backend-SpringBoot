@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.BookModel;
 import com.library.management.system.librarymanagementsystem.model.GenreModel;
 import com.library.management.system.librarymanagementsystem.repository.BookRepository;
@@ -83,7 +84,8 @@ public class BookServiceImpl implements BookService {
                 flag = true;
             }
         }else{
-            System.out.println("Book Not Found"); 
+            System.out.println("Book Not Found");
+            throw new ResourceNotFoundException("Book Not Found");
         }
         return flag;
     }
@@ -99,6 +101,8 @@ public class BookServiceImpl implements BookService {
         Optional<BookModel> getBook = bookRepository.findById(book_id);
         if(!getBook.isPresent()){
             System.out.println("Book Not Found");
+            throw new ResourceNotFoundException("Book Not Found");
+
         }
         return getBook;
     }
@@ -146,6 +150,8 @@ public class BookServiceImpl implements BookService {
             }
         } else {
             System.out.println("Book Not Found");
+            throw new ResourceNotFoundException("Book Not Found");
+
         }
         return flag;
     }

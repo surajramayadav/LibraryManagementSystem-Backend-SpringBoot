@@ -3,6 +3,7 @@ package com.library.management.system.librarymanagementsystem.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.GenreModel;
 import com.library.management.system.librarymanagementsystem.repository.GenreRepository;
 
@@ -33,6 +34,8 @@ public class GenreServiceImpl implements GenreService {
             genreid=getGnere.get().getGenre_id();
         }else{
             System.out.println("Genre Not Found");   
+            throw new ResourceNotFoundException("Genre Not Found");
+
         }
         // System.out.println(genreid);   
         return genreid; 

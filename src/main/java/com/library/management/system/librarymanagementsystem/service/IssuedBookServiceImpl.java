@@ -3,6 +3,7 @@ package com.library.management.system.librarymanagementsystem.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
 import com.library.management.system.librarymanagementsystem.model.BookModel;
 import com.library.management.system.librarymanagementsystem.model.IssuedBookModel;
@@ -57,16 +58,24 @@ public class IssuedBookServiceImpl implements IssuedBookService {
                             }
                         }else{
                             System.out.println("Book Not Available");
+                            throw new ResourceNotFoundException("Book Not Available");
+
                         }
                       
                     }else{
                         System.out.println("Book Not Found");
+                        throw new ResourceNotFoundException("Book Not Found");
+
                     }
                 }else{
                     System.out.println("user Not Found");
+                    throw new ResourceNotFoundException("User Not Found");
+
                 }
             }else{
                 System.out.println("Admin Not Found");
+                throw new ResourceNotFoundException("Admin Not Found");
+
             }
            
         }
@@ -89,6 +98,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
         IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(admin_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
+            throw new ResourceNotFoundException("Issued Book Not Found");
+
         }
         return issuedBookModel;
     }
@@ -98,6 +109,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
         IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(book_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
+            throw new ResourceNotFoundException("Issued Book Not Found");
+
         }
         return issuedBookModel;
     }
@@ -107,6 +120,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
         IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(user_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
+            throw new ResourceNotFoundException("Issued Book Not Found");
+
         }
         return issuedBookModel;
     }

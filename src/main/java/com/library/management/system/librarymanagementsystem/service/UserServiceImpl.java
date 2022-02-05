@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.UserModel;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
 import com.library.management.system.librarymanagementsystem.repository.UserRepository;
@@ -49,6 +50,8 @@ public class UserServiceImpl implements UserService {
         Optional<UserModel> getUser = userRepo.findById(user_id);
         if (!getUser.isPresent()) {
             System.out.println("User Not found");
+            throw new ResourceNotFoundException("User Not Found");
+
         }
         return getUser;
     }
@@ -62,6 +65,8 @@ public class UserServiceImpl implements UserService {
             flag = true;
         } else {
             System.out.println("User Not Found");
+            throw new ResourceNotFoundException("User Not Found");
+
         }
         return flag;
     }
@@ -79,6 +84,8 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             System.out.println("User Not Found");
+            throw new ResourceNotFoundException("User Not Found");
+
         }
         return flag;
     }
@@ -92,6 +99,8 @@ public class UserServiceImpl implements UserService {
             flag = true;
         } else {
             System.out.println("User Not Found");
+            throw new ResourceNotFoundException("User Not Found");
+
         }
         return flag;
 
@@ -113,9 +122,11 @@ public class UserServiceImpl implements UserService {
                 flag = true;
             } else {
                 System.out.println("User Phone Number And Password Invalid");
+                throw new ResourceNotFoundException("User Phone Number And Password Invalid");
             }
         } else {
             System.out.println("User Phone Number And Password Invalid");
+            throw new ResourceNotFoundException("User Phone Number And Password Invalid");
         }
         return flag;
     }
