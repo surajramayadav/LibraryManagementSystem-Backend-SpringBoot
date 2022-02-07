@@ -31,7 +31,7 @@ public class CryptoGraphy {
 		try {
 			SecretKeySpec secKey=new SecretKeySpec(key, "AES");
 			Cipher cipher=Cipher.getInstance("AES");
-			cipher.init(cipher.ENCRYPT_MODE,secKey);
+			cipher.init(Cipher.ENCRYPT_MODE,secKey);
 			
 			byte[] newBytes=cipher.doFinal(data.getBytes());
 			
@@ -47,7 +47,7 @@ public class CryptoGraphy {
 		try {
 			SecretKeySpec secKey=new SecretKeySpec(key, "AES");
 			Cipher cipher=Cipher.getInstance("AES");
-			cipher.init(cipher.DECRYPT_MODE,secKey);
+			cipher.init(Cipher.DECRYPT_MODE,secKey);
 			
 			byte[] newBytes=cipher.doFinal(Base64.getDecoder().decode(data.getBytes()));
 			

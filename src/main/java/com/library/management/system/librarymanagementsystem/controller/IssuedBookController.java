@@ -2,7 +2,6 @@ package com.library.management.system.librarymanagementsystem.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.model.IssuedBookModel;
 import com.library.management.system.librarymanagementsystem.service.IssuedBookService;
