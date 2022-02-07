@@ -1,6 +1,8 @@
 package com.library.management.system.librarymanagementsystem.service;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.library.management.system.librarymanagementsystem.repository.BookRepository;
 
@@ -15,8 +17,13 @@ public class ReportServiceImpl implements ReportService{
     private BookRepository bookRepo;
 
     @Override
-    public HashMap<String, String> countBookByGenre() {
+    public  List<Map<String,String>> countBookByGenre() {
         return bookRepo.countBookByGenre();
 
+    }
+
+    @Override
+    public List<Map<String, String>> returnBookToday(String todayDate) {
+        return bookRepo.returnBookToday(todayDate);
     }
 }

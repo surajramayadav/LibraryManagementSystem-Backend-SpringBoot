@@ -2,6 +2,7 @@ package com.library.management.system.librarymanagementsystem.repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -43,9 +44,18 @@ public interface BookRepository extends JpaRepository<BookModel,Long> {
 
 
 
+     // REPORT #########################################################
      
 
     // get no of book by genre  #Report
-    @Query(value = "select genre_type,count(*) as count from book inner join genre  on book.genre_id = genre.genre_id group by genre.genre_type", nativeQuery = true)
-    public HashMap<String,String> countBookByGenre();
+    @Query(value = "select genre_type,CAST(count(*) AS char) as count from book inner join genre  on book.genre_id = genre.genre_id group by genre.genre_type", nativeQuery = true)
+    public  List<Map<String,String>> countBookByGenre();
+
+
+     // get no of book by genre  #Report
+    @Query(value = "select book.book_name,user.user_name from issued_book inner join book on issued_book.book_id = book.book_id inner join user on issued_book.user_id = user.user_id where issued_book.return_date= ?1", nativeQuery = true)
+    public  List<Map<String,String>> returnBookToday(String todayDate);
+
+
+    
 }

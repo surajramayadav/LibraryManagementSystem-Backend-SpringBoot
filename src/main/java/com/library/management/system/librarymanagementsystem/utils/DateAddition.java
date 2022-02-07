@@ -10,13 +10,13 @@ public class DateAddition {
     private static Date today8 = new Date(ltime);
    
     public static String getCurrentDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
         String strDate = formatter.format(today);  
         return strDate;
     }
     
     public static String getReturnDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
         String strDate = formatter.format(today8);  
         return strDate;
     }
