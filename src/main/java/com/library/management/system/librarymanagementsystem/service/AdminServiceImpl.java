@@ -8,6 +8,7 @@ import com.library.management.system.librarymanagementsystem.exception.ResourceN
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
 import com.library.management.system.librarymanagementsystem.repository.AdminRepository;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
+import com.library.management.system.librarymanagementsystem.utils.ApiResponse;
 import com.library.management.system.librarymanagementsystem.utils.CryptoGraphy;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminServiceImpl implements AdminService {
 
+    private  ApiResponse apiResponse=null;
+    
     @Autowired
     private AdminRepository adminrepo;
 
     @Autowired
     private IssuedBookRepository issuedRepo;
 
+    public AdminServiceImpl(){
+         apiResponse=new ApiResponse();
+    }
+
     @Override
-    public boolean addAdmin(HashMap<String,String> admin) {
+    public HashMap<String,Boolean> addAdmin(HashMap<String,String> admin) {   
         boolean flag = false;
         CryptoGraphy cryptoGraphy = new CryptoGraphy();
         String encryptedPassword = cryptoGraphy.setEncrpytedData(admin.get("admin_password"));
@@ -37,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
         if (adminrepo.save(adminModel) != null) {
             flag = true;
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
 
     }
 
@@ -58,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean deleteAdmin(long admin_id) {
+    public  HashMap<String,Boolean> deleteAdmin(long admin_id) {
         boolean flag = false;
         if (adminrepo.findById(admin_id).isPresent()) {
             //First delete Constraints 
@@ -72,7 +79,7 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("Admin Not Found");
             throw new ResourceNotFoundException("Admin Not Found");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
@@ -82,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean updateAdmin(String admin_username, String admin_role, long admin_id) {
+    public  HashMap<String,Boolean> updateAdmin(String admin_username, String admin_role, long admin_id) {
         boolean flag = false;
         Optional<AdminModel> isAdminExits = adminrepo.findById(admin_id);
         if (isAdminExits.isPresent()) {
@@ -92,11 +99,11 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("Admin Not Found");
             throw new ResourceNotFoundException("Admin Not Found");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean changeAdminPassword(String admin_password, long admin_id) {
+    public  HashMap<String,Boolean> changeAdminPassword(String admin_password, long admin_id) {
         boolean flag = false;
         Optional<AdminModel> isAdminExits = adminrepo.findById(admin_id);
         if (isAdminExits.isPresent()) {
@@ -106,11 +113,11 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("Admin Not Found");
             throw new ResourceNotFoundException("Admin Not Found");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean loginAdmin(String admin_username, String admin_password) {
+    public  HashMap<String,Boolean> loginAdmin(String admin_username, String admin_password) {
         boolean flag = false;
         String encryptedPassword = adminrepo.loginWithAdmin(admin_username);
         if (encryptedPassword.length() != 0) {
@@ -126,17 +133,17 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("Username And Password Invalid");
             throw new ResourceNotFoundException("Username And Password Invalid");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean checkAdminIsExits(String admin_username) {
+    public  HashMap<String,Boolean> checkAdminIsExits(String admin_username) {
        boolean flag=false;
        AdminModel admin=adminrepo.checkAdminIsExits(admin_username);
        if(admin != null){
            flag=true;
        }
-        return flag;
+       return apiResponse.addKeyValue(flag);
     }
 
 

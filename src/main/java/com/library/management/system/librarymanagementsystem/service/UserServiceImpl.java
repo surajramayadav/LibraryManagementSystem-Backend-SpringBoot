@@ -8,6 +8,7 @@ import com.library.management.system.librarymanagementsystem.exception.ResourceN
 import com.library.management.system.librarymanagementsystem.model.UserModel;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
 import com.library.management.system.librarymanagementsystem.repository.UserRepository;
+import com.library.management.system.librarymanagementsystem.utils.ApiResponse;
 import com.library.management.system.librarymanagementsystem.utils.CryptoGraphy;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private  ApiResponse apiResponse=null;
+
     @Autowired
     private UserRepository userRepo;
 
     @Autowired
     private IssuedBookRepository issuedRepo;
 
+
+    public UserServiceImpl(){
+        apiResponse=new ApiResponse();
+   }
+
+
     @Override
-    public boolean addUser(HashMap<String, String> user) {
+    public HashMap<String, Boolean> addUser(HashMap<String, String> user) {
         CryptoGraphy cryptoGraphy = new CryptoGraphy();
         boolean flag = false;
         String encryptedPassword = cryptoGraphy.setEncrpytedData(user.get("user_password"));
@@ -36,7 +45,7 @@ public class UserServiceImpl implements UserService {
         if (userRepo.save(userModel) != null) {
             flag = true;
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
 
     }
 
@@ -57,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(String user_name, String user_phone, String user_address, long user_id) {
+    public HashMap<String, Boolean> updateUser(String user_name, String user_phone, String user_address, long user_id) {
         boolean flag = false;
         Optional<UserModel> userData = userRepo.findById(user_id);
         if (userData.isPresent()) {
@@ -68,11 +77,11 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
 
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean deleteUser(long user_id) {
+    public HashMap<String, Boolean> deleteUser(long user_id) {
         boolean flag = false;
 
         if (userRepo.findById(user_id).isPresent()) {
@@ -87,11 +96,11 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
 
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean changeUserPassword(String user_password, long user_id) {
+    public HashMap<String, Boolean> changeUserPassword(String user_password, long user_id) {
         boolean flag = false;
         Optional<UserModel> userData = userRepo.findById(user_id);
         if (userData.isPresent()) {
@@ -102,7 +111,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
 
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
 
     }
 
@@ -112,7 +121,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean loginUser(long user_phone, String user_password) {
+    public HashMap<String, Boolean> loginUser(long user_phone, String user_password) {
         boolean flag = false;
         String encryptedPassword = userRepo.loginWithUserPhone(user_phone);
         if (encryptedPassword.length() != 0) {
@@ -128,17 +137,17 @@ public class UserServiceImpl implements UserService {
             System.out.println("User Phone Number And Password Invalid");
             throw new ResourceNotFoundException("User Phone Number And Password Invalid");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean checkUserExits(long user_phone) {
+    public HashMap<String, Boolean> checkUserExits(long user_phone) {
         boolean flag=false;
         UserModel user=userRepo.checkUserExits(user_phone);
         if(user != null){
             flag=true;
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
 }

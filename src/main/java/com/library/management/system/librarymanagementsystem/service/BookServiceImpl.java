@@ -10,12 +10,15 @@ import com.library.management.system.librarymanagementsystem.model.GenreModel;
 import com.library.management.system.librarymanagementsystem.repository.BookRepository;
 import com.library.management.system.librarymanagementsystem.repository.GenreRepository;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
+import com.library.management.system.librarymanagementsystem.utils.ApiResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
+    
+    private  ApiResponse apiResponse=null;
 
     @Autowired
     private BookRepository bookRepository;
@@ -25,9 +28,13 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private IssuedBookRepository issuedRepo;
+
+    public BookServiceImpl(){
+        apiResponse=new ApiResponse();
+    }
     
     @Override
-    public boolean addBook(HashMap<String, String> book) {
+    public  HashMap<String,Boolean> addBook(HashMap<String, String> book) {
         boolean flag = false;
             GenreModel genreData = genreRepository.getGenreDataByType(book.get("genre_type"));
             // System.out.println(genreData);
@@ -68,11 +75,11 @@ public class BookServiceImpl implements BookService {
                 }
             }
         
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean deleteBook(Long book_id) {
+    public  HashMap<String,Boolean> deleteBook(Long book_id) {
         boolean flag = false;
         
         if (bookRepository.findById(book_id).isPresent()) {
@@ -87,7 +94,7 @@ public class BookServiceImpl implements BookService {
             System.out.println("Book Not Found");
             throw new ResourceNotFoundException("Book Not Found");
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
@@ -115,17 +122,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean checkBookIsExits(String book_name) {
+    public  HashMap<String,Boolean> checkBookIsExits(String book_name) {
         boolean flag = false;
         BookModel isBookExits = bookRepository.getBookByName(book_name);
         if (isBookExits != null) {
             flag = true;
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean updateBook(String book_name, String book_isbn, String book_author, String genre_type,
+    public  HashMap<String,Boolean> updateBook(String book_name, String book_isbn, String book_author, String genre_type,
             Long book_quantity, Long book_id) {
         boolean flag = false;
         Optional<BookModel> bookData = bookRepository.findById(book_id);
@@ -153,12 +160,12 @@ public class BookServiceImpl implements BookService {
             throw new ResourceNotFoundException("Book Not Found");
 
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
 
     @Override
-    public boolean updateBookQuantity(String book_name, long book_quantity) {
+    public  HashMap<String,Boolean> updateBookQuantity(String book_name, long book_quantity) {
         boolean flag=false;
          BookModel bookData = bookRepository.getBookByName(book_name);
         // System.out.println(bookData);
@@ -175,7 +182,7 @@ public class BookServiceImpl implements BookService {
             }
 
         } 
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
 }

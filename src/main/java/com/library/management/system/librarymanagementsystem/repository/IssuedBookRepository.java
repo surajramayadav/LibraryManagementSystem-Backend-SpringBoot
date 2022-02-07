@@ -1,5 +1,9 @@
 package com.library.management.system.librarymanagementsystem.repository;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import com.library.management.system.librarymanagementsystem.model.IssuedBookModel;
@@ -20,19 +24,19 @@ public interface IssuedBookRepository extends JpaRepository<IssuedBookModel,Long
     // Get iisued Book by book id admin id and user id 
 
     @Query(value = "SELECT * FROM issued_book res where res.admin_id = ?1", nativeQuery = true)
-    public IssuedBookModel getIssuedbookByAdmin(long admin_id);
+    public List<Map<String,String>> getIssuedbookByAdmin(long admin_id);
 
     @Query(value = "SELECT * FROM issued_book res where res.book_id = ?1", nativeQuery = true)
-    public IssuedBookModel getIssuedbookByBook(long book_id);
+    public List<Map<String,String>> getIssuedbookByBook(long book_id);
 
     @Query(value = "SELECT * FROM issued_book res where res.user_id = ?1", nativeQuery = true)
-    public IssuedBookModel getIssuedbookByUser(long user_id);
+    public List<Map<String,String>> getIssuedbookByUser(long user_id);
 
     // update return status
     @Transactional
     @Modifying
-    @Query(value = "update issued_book a set a.return_status = ?1 where a.user_id = ?2", nativeQuery = true)
-    public void returnIssuedBook(String return_status,long user_id);
+    @Query(value = "update issued_book a set a.return_status = ?1 where a.user_id = ?2 AND book_id=?3", nativeQuery = true)
+    public void returnIssuedBook(String return_status,long user_id,long book_id);
 
 
     // delete issuebook by admin user book ids

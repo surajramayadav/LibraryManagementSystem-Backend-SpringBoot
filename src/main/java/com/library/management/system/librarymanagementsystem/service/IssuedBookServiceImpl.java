@@ -2,6 +2,8 @@ package com.library.management.system.librarymanagementsystem.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import com.library.management.system.librarymanagementsystem.exception.ResourceNotFoundException;
 import com.library.management.system.librarymanagementsystem.model.AdminModel;
@@ -12,12 +14,15 @@ import com.library.management.system.librarymanagementsystem.repository.AdminRep
 import com.library.management.system.librarymanagementsystem.repository.BookRepository;
 import com.library.management.system.librarymanagementsystem.repository.IssuedBookRepository;
 import com.library.management.system.librarymanagementsystem.repository.UserRepository;
+import com.library.management.system.librarymanagementsystem.utils.ApiResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class IssuedBookServiceImpl implements IssuedBookService {
+
+    private  ApiResponse apiResponse=null;
 
     @Autowired
     private IssuedBookRepository issueRepo;
@@ -31,8 +36,13 @@ public class IssuedBookServiceImpl implements IssuedBookService {
     @Autowired
     private UserRepository userRepo;
 
+    public IssuedBookServiceImpl(){
+        apiResponse=new ApiResponse();
+    }
+    
+
     @Override
-    public boolean addIssueBook(HashMap<String, String> issueData) {
+    public HashMap<String, Boolean> addIssueBook(HashMap<String, String> issueData) {
         boolean flag = false;
         System.out.println(issueData);
         if (issueData != null) {
@@ -42,7 +52,7 @@ public class IssuedBookServiceImpl implements IssuedBookService {
                 UserModel userData = userRepo.getById(Long.parseLong(issueData.get("user_id")));
                 if(userData != null){
                     System.out.println(userData);
-                    BookModel bookData = bookRepo.getById(Long.parseLong(issueData.get("user_id")));
+                    BookModel bookData = bookRepo.getById(Long.parseLong(issueData.get("book_id")));
                     if(bookData != null){
                         System.out.println(bookData);
                         IssuedBookModel issuedBookModel = new IssuedBookModel();
@@ -80,12 +90,12 @@ public class IssuedBookServiceImpl implements IssuedBookService {
            
         }
 
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
     @Override
-    public boolean updateIssueStatus() {
-        return false;
+    public HashMap<String, Boolean> updateIssueStatus() {
+        return apiResponse.addKeyValue(false);
     }
 
     @Override
@@ -94,8 +104,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
     }
 
     @Override
-    public IssuedBookModel getIssuedBookByAdmin(long admin_id) {
-        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(admin_id);
+    public List<Map<String,String>> getIssuedBookByAdmin(long admin_id) {
+        List<Map<String, String>> issuedBookModel =issueRepo.getIssuedbookByAdmin(admin_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
             throw new ResourceNotFoundException("Issued Book Not Found");
@@ -105,8 +115,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
     }
 
     @Override
-    public IssuedBookModel getIssuedBookByBook(long book_id) {
-        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(book_id);
+    public List<Map<String,String>> getIssuedBookByBook(long book_id) {
+        List<Map<String,String>> issuedBookModel =issueRepo.getIssuedbookByBook(book_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
             throw new ResourceNotFoundException("Issued Book Not Found");
@@ -116,8 +126,8 @@ public class IssuedBookServiceImpl implements IssuedBookService {
     }
 
     @Override
-    public IssuedBookModel getIssuedBookByUser(long user_id) {
-        IssuedBookModel issuedBookModel =issueRepo.getIssuedbookByAdmin(user_id);
+    public List<Map<String,String>> getIssuedBookByUser(long user_id) {
+        List<Map<String,String>> issuedBookModel =issueRepo.getIssuedbookByUser(user_id);
         if(issuedBookModel == null){
             System.out.println("Issued Book Not Found");
             throw new ResourceNotFoundException("Issued Book Not Found");
@@ -128,9 +138,9 @@ public class IssuedBookServiceImpl implements IssuedBookService {
 
  
     @Override
-    public boolean retunIssuedBook(long user_id, String return_status, Long book_id) {
+    public HashMap<String, Boolean> retunIssuedBook(long user_id, String return_status, Long book_id) {
         boolean flag =false;
-        issueRepo.returnIssuedBook(return_status, user_id);
+        issueRepo.returnIssuedBook(return_status, user_id,book_id);
         BookModel bookData=bookRepo.getById(book_id);
         if(bookData != null){
             long quantity=bookRepo.getBookQuantity(bookData.getBook_name());
@@ -138,7 +148,7 @@ public class IssuedBookServiceImpl implements IssuedBookService {
             bookRepo.updateBookQuantity(sum, book_id);
             flag=true;
         }
-        return flag;
+        return apiResponse.addKeyValue(flag);
     }
 
 }

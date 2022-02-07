@@ -7,15 +7,24 @@ import java.util.Optional;
 import com.library.management.system.librarymanagementsystem.model.BookModel;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public interface BookService {
-    
-   public boolean addBook(HashMap<String,String> book);
-   public boolean deleteBook(Long book_id);
-   public boolean updateBook(String book_name,String book_isbn,String book_author,String genre_type,Long book_quantity, Long book_id);
+
+   public HashMap<String, Boolean> addBook(HashMap<String, String> book);
+
+   public HashMap<String, Boolean> deleteBook(Long book_id);
+
+   public HashMap<String, Boolean> updateBook(String book_name, String book_isbn, String book_author, String genre_type,
+         Long book_quantity, Long book_id);
+
    public List<BookModel> getAllBook();
-   public Optional<BookModel> getBookById(Long book_id); 
+
+   public Optional<BookModel> getBookById(Long book_id);
+
    public Optional<BookModel> searchBookName(String book_name);
-   public boolean checkBookIsExits(String book_name);
-   public boolean updateBookQuantity(String book_name,long book_quantity);
+
+   public HashMap<String, Boolean> checkBookIsExits(String book_name);
+
+   public HashMap<String, Boolean> updateBookQuantity(String book_name, long book_quantity);
 }
