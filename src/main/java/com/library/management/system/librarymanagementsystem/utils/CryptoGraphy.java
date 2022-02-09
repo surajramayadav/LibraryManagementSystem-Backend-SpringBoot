@@ -17,7 +17,7 @@ public class CryptoGraphy {
 	public CryptoGraphy() {
 		try {
 			keyStore=KeyStore.getInstance("JCEKS");
-			fileInputStream=new FileInputStream("/media/suraj/HardDisk/spring/library-management-system/src/main/resources/mykeystore.jks");
+			fileInputStream=new FileInputStream("/media/suraj/HardDisk/spring/library-management-system/backend/src/main/resources/mykeystore.jks");
 			keyStore.load(fileInputStream,"123456".toCharArray(	));
 			key=keyStore.getKey("mykey","123456".toCharArray());
 			

@@ -22,14 +22,14 @@ public interface IssuedBookRepository extends JpaRepository<IssuedBookModel,Long
 
     // Get iisued Book by book id admin id and user id 
 
-    @Query(value = "SELECT * FROM issued_book res where res.admin_id = ?1", nativeQuery = true)
+    @Query(value = "select issued_book.issuedbook_id, issued_book.issued_date,issued_book.return_date,issued_book.return_status,book.book_name,user.user_name,admin.admin_username from issued_book inner join book on issued_book.book_id = book.book_id inner join user on issued_book.user_id = user.user_id inner join admin on issued_book.admin_id = admin.admin_id where admin.admin_id = ?1", nativeQuery = true)
     public List<Map<String,String>> getIssuedbookByAdmin(long admin_id);
 
-    @Query(value = "SELECT * FROM issued_book res where res.book_id = ?1", nativeQuery = true)
-    public List<Map<String,String>> getIssuedbookByBook(long book_id);
+    @Query(value = "select issued_book.issuedbook_id, issued_book.issued_date,issued_book.return_date,issued_book.return_status,book.book_name,user.user_name,admin.admin_username from issued_book inner join book on issued_book.book_id = book.book_id inner join user on issued_book.user_id = user.user_id inner join admin on issued_book.admin_id = admin.admin_id where book.book_id = ?1", nativeQuery = true)
+     public List<Map<String,String>> getIssuedbookByBook(long book_id);
 
-    @Query(value = "SELECT * FROM issued_book res where res.user_id = ?1", nativeQuery = true)
-    public List<Map<String,String>> getIssuedbookByUser(long user_id);
+     @Query(value = "select issued_book.issuedbook_id, issued_book.issued_date,issued_book.return_date,issued_book.return_status,book.book_name,user.user_name,admin.admin_username from issued_book inner join book on issued_book.book_id = book.book_id inner join user on issued_book.user_id = user.user_id inner join admin on issued_book.admin_id = admin.admin_id where user.user_id = ?1", nativeQuery = true)
+     public List<Map<String,String>> getIssuedbookByUser(long user_id);
 
     // update return status
     @Transactional

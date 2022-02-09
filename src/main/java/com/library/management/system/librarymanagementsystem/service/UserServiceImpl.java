@@ -121,14 +121,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String, Boolean> loginUser(long user_phone, String user_password) {
-        boolean flag = false;
+    public UserModel loginUser(long user_phone, String user_password) {
+        UserModel userData;
         String encryptedPassword = userRepo.loginWithUserPhone(user_phone);
+       
         if (encryptedPassword.length() != 0) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
             if (decryptedPassword.equals(user_password)) {
-                flag = true;
+                userData=userRepo.checkUserExits(user_phone);
             } else {
                 System.out.println("User Phone Number And Password Invalid");
                 throw new ResourceNotFoundException("User Phone Number And Password Invalid");
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
             System.out.println("User Phone Number And Password Invalid");
             throw new ResourceNotFoundException("User Phone Number And Password Invalid");
         }
-        return apiResponse.addKeyValue(flag);
+        return userData;
     }
 
     @Override

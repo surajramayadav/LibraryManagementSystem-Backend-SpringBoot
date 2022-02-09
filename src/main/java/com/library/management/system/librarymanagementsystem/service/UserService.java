@@ -16,6 +16,6 @@ public interface UserService {
     public HashMap<String, Boolean> deleteUser(long user_id);
     public Optional<UserModel> searchUser(String user_name);
     public HashMap<String, Boolean> changeUserPassword (String user_password,long user_id);
-    public HashMap<String, Boolean> loginUser(long user_phone,String user_password);
+    public UserModel loginUser(long user_phone,String user_password);
     public HashMap<String, Boolean> checkUserExits(long user_phone);
 }

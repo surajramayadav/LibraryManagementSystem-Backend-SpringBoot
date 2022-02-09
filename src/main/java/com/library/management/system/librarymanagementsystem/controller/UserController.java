@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
 @RestController
 @RequestMapping(path="/api/v1/user")
 public class UserController {
@@ -58,7 +60,7 @@ public class UserController {
     
     //user login
     @PostMapping("/login")
-    public  ResponseEntity<HashMap<String,Boolean>> loginUser(@RequestBody HashMap<String,String>  user){
+    public  ResponseEntity<UserModel> loginUser(@RequestBody HashMap<String,String>  user){
         return new ResponseEntity<>(userService.loginUser(Long.parseLong(user.get("user_phone")), user.get("user_password")),HttpStatus.OK);
     }
 
