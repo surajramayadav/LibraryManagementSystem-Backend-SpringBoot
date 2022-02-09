@@ -102,9 +102,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public HashMap<String, Boolean> changeUserPassword(String user_password, long user_id) {
         boolean flag = false;
+        CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        String encryptedPassword = cryptoGraphy.setEncrpytedData(user_password);
         Optional<UserModel> userData = userRepo.findById(user_id);
         if (userData.isPresent()) {
-            userRepo.changeUserPassword(user_password, user_id);
+            userRepo.changeUserPassword(encryptedPassword, user_id);
             flag = true;
         } else {
             System.out.println("User Not Found");
@@ -124,10 +126,11 @@ public class UserServiceImpl implements UserService {
     public UserModel loginUser(long user_phone, String user_password) {
         UserModel userData;
         String encryptedPassword = userRepo.loginWithUserPhone(user_phone);
-       
+        System.out.println("encryptedPassword"+encryptedPassword);
         if (encryptedPassword.length() != 0) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
+            System.out.println("decryptedPassword"+decryptedPassword);
             if (decryptedPassword.equals(user_password)) {
                 userData=userRepo.checkUserExits(user_phone);
             } else {

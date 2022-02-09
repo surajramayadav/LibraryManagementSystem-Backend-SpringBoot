@@ -60,7 +60,7 @@ public class AdminController {
 
     // singup admin
     @PostMapping("/login")
-    public  ResponseEntity<HashMap<String,Boolean>> loginAdmin(@RequestBody HashMap<String,String> admin) {
+    public  ResponseEntity<AdminModel> loginAdmin(@RequestBody HashMap<String,String> admin) {
         // System.out.println(admin);
         return new ResponseEntity<>(adminService.loginAdmin(admin.get("admin_username"), admin.get("admin_password")),HttpStatus.OK);
     

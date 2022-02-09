@@ -117,14 +117,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public  HashMap<String,Boolean> loginAdmin(String admin_username, String admin_password) {
+    public  AdminModel loginAdmin(String admin_username, String admin_password) {
         boolean flag = false;
+        AdminModel admin;
         String encryptedPassword = adminrepo.loginWithAdmin(admin_username);
         if (encryptedPassword.length() != 0) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
             if (decryptedPassword.equals(admin_password)) {
                 flag = true;
+                 admin=adminrepo.checkAdminIsExits(admin_username);
             } else {
                 System.out.println("Username And Password Invalid");
                 throw new ResourceNotFoundException("Username And Password Invalid");
@@ -133,7 +135,7 @@ public class AdminServiceImpl implements AdminService {
             System.out.println("Username And Password Invalid");
             throw new ResourceNotFoundException("Username And Password Invalid");
         }
-        return apiResponse.addKeyValue(flag);
+        return admin;
     }
 
     @Override

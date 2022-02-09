@@ -25,7 +25,7 @@ public interface AdminService {
 
     public HashMap<String, Boolean> changeAdminPassword(String admin_password, long admin_id);
 
-    public HashMap<String, Boolean> loginAdmin(String admin_username, String admin_password);
+    public AdminModel loginAdmin(String admin_username, String admin_password);
 
     public HashMap<String, Boolean> checkAdminIsExits(String admin_username);
 

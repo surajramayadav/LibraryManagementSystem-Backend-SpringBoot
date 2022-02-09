@@ -61,6 +61,8 @@ public class UserController {
     //user login
     @PostMapping("/login")
     public  ResponseEntity<UserModel> loginUser(@RequestBody HashMap<String,String>  user){
+    
+        System.out.println(user);
         return new ResponseEntity<>(userService.loginUser(Long.parseLong(user.get("user_phone")), user.get("user_password")),HttpStatus.OK);
     }
 

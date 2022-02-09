@@ -22,7 +22,7 @@ public class UserModel {
     private String user_address;
 
     @Column(name = "user_password",nullable = false)
-    private String user_password;   
+    private String user_password="123456";   
 
     public UserModel() {
     }
