@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public HashMap<String, Boolean> addUser(HashMap<String, String> user) {
         CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        
         boolean flag = false;
         String encryptedPassword = cryptoGraphy.setEncrpytedData(user.get("user_password"));
         // System.out.println(encryptedPassword);
@@ -127,7 +128,7 @@ public class UserServiceImpl implements UserService {
         UserModel userData;
         String encryptedPassword = userRepo.loginWithUserPhone(user_phone);
         System.out.println("encryptedPassword"+encryptedPassword);
-        if (encryptedPassword.length() != 0) {
+        if (encryptedPassword != null) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
             System.out.println("decryptedPassword"+decryptedPassword);

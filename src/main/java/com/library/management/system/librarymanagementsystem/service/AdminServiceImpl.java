@@ -105,9 +105,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public  HashMap<String,Boolean> changeAdminPassword(String admin_password, long admin_id) {
         boolean flag = false;
+        CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        String encryptedPassword = cryptoGraphy.setEncrpytedData(admin_password);
         Optional<AdminModel> isAdminExits = adminrepo.findById(admin_id);
         if (isAdminExits.isPresent()) {
-            adminrepo.changeAdminPassword(admin_password, admin_id);
+            adminrepo.changeAdminPassword(encryptedPassword, admin_id);
             flag = true;
         } else {
             System.out.println("Admin Not Found");
@@ -118,14 +120,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public  AdminModel loginAdmin(String admin_username, String admin_password) {
-        boolean flag = false;
+        // boolean flag = false;
         AdminModel admin;
         String encryptedPassword = adminrepo.loginWithAdmin(admin_username);
-        if (encryptedPassword.length() != 0) {
+        if (encryptedPassword != null) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
             if (decryptedPassword.equals(admin_password)) {
-                flag = true;
+                // flag = true;
                  admin=adminrepo.checkAdminIsExits(admin_username);
             } else {
                 System.out.println("Username And Password Invalid");
