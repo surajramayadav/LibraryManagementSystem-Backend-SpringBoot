@@ -1,0 +1,2 @@
+2022-02-10 18:13:56,620 ERROR c.l.m.s.l.LibraryManagementSystemApplication [restartedMain] hii
+23 2022-02-10 18:19:20,479 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-1] Admin Not Found
