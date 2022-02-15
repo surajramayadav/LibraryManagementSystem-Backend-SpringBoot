@@ -27,6 +27,7 @@ public class UserModel {
     @Column(name = "user_password", nullable = false)
     private String user_password = "123456";
 
+
     public UserModel() {
     }
 
@@ -36,21 +37,27 @@ public class UserModel {
     // return user_password;
     // }
 
+
+
+    public void setUser_password(String user_password) {
+        this.user_password = user_password;
+    }
+
     public UserModel(Long user_id, String user_name, Long user_phone, String user_address, String user_email,
-            String user_password) {
+            String user_password, String resetPasswordToken, String resetPasswordExpire) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_phone = user_phone;
         this.user_address = user_address;
         this.user_email = user_email;
         this.user_password = user_password;
+       
     }
 
 
+    
 
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
-    }
+
 
     public Long getUser_id() {
         return user_id;

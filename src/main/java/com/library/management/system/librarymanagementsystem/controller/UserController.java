@@ -1,4 +1,5 @@
 package com.library.management.system.librarymanagementsystem.controller;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -18,72 +19,90 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-@RequestMapping(path="/api/v1/user")
+@RequestMapping(path = "/api/v1/user")
 public class UserController {
-    
+
     @Autowired
     private UserService userService;
 
     // get all users
     @GetMapping("/")
     public ResponseEntity<List<UserModel>> getUser() {
-        return new ResponseEntity<>( userService.getAllUser(),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
     // get user by id
     @GetMapping("/{user_id}")
-    public ResponseEntity<Optional<UserModel>> getUserById(@PathVariable("user_id") Long user_id){
-        return new ResponseEntity<>(userService.getUserById(user_id),HttpStatus.OK);
+    public ResponseEntity<Optional<UserModel>> getUserById(@PathVariable("user_id") Long user_id) {
+        return new ResponseEntity<>(userService.getUserById(user_id), HttpStatus.OK);
     }
 
     // search user
     @GetMapping("/search/{user_name}")
-    public ResponseEntity<Optional<UserModel>> searchUserName(@PathVariable("user_name") String user_name){
-        return new ResponseEntity<>(userService.searchUser(user_name),HttpStatus.OK);
+    public ResponseEntity<Optional<UserModel>> searchUserName(@PathVariable("user_name") String user_name) {
+        return new ResponseEntity<>(userService.searchUser(user_name), HttpStatus.OK);
     }
 
-      // search user
-      @GetMapping("/exits/{user_phone}")
-      public  ResponseEntity<HashMap<String,Boolean>> searchUserName(@PathVariable("user_phone") Long user_phone){
-          return new ResponseEntity<>(userService.checkUserExits(user_phone),HttpStatus.OK);
-      }
-  
+    // search user
+    @GetMapping("/exits/{user_phone}")
+    public ResponseEntity<HashMap<String, Boolean>> searchUserName(@PathVariable("user_phone") Long user_phone) {
+        return new ResponseEntity<>(userService.checkUserExits(user_phone), HttpStatus.OK);
+    }
 
     // add user
     @PostMapping("/")
-    public  ResponseEntity<HashMap<String,Boolean>> addUser(@RequestBody HashMap<String,String>  user){
-        return new ResponseEntity<>(userService.addUser(user),HttpStatus.CREATED);
+    public ResponseEntity<HashMap<String, Boolean>> addUser(@RequestBody HashMap<String, String> user) {
+        return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
-    
-    //user login
+    // user login
     @PostMapping("/login")
-    public  ResponseEntity<UserModel> loginUser(@RequestBody HashMap<String,String>  user){
-    
+    public ResponseEntity<UserModel> loginUser(@RequestBody HashMap<String, String> user) {
+
         System.out.println(user);
-        return new ResponseEntity<>(userService.loginUser(Long.parseLong(user.get("user_phone")), user.get("user_password")),HttpStatus.OK);
+        return new ResponseEntity<>(
+                userService.loginUser(Long.parseLong(user.get("user_phone")), user.get("user_password")),
+                HttpStatus.OK);
     }
 
     // delete user
     @DeleteMapping("/{user_id}")
-    public  ResponseEntity<HashMap<String,Boolean>> deleteUser(@PathVariable("user_id") Long user_id){
-        return new ResponseEntity<>(userService.deleteUser(user_id),HttpStatus.OK);
+    public ResponseEntity<HashMap<String, Boolean>> deleteUser(@PathVariable("user_id") Long user_id) {
+        return new ResponseEntity<>(userService.deleteUser(user_id), HttpStatus.OK);
     }
 
     // update user
     @PutMapping("/{user_id}")
-    public  ResponseEntity<HashMap<String,Boolean>> updateUser(@PathVariable("user_id") Long user_id,@RequestBody HashMap<String,String> updateData){
-        return new ResponseEntity<>(userService.updateUser(updateData.get("user_name"), updateData.get("user_phone"), updateData.get("user_address"), user_id),HttpStatus.OK);
+    public ResponseEntity<HashMap<String, Boolean>> updateUser(@PathVariable("user_id") Long user_id,
+            @RequestBody HashMap<String, String> updateData) {
+        return new ResponseEntity<>(userService.updateUser(updateData.get("user_name"), updateData.get("user_phone"),
+                updateData.get("user_address"), user_id), HttpStatus.OK);
     }
 
     // change password
     @PutMapping("/password/{user_id}")
-    public  ResponseEntity<HashMap<String,Boolean>> changeUserPassword(@PathVariable("user_id") Long user_id,@RequestBody HashMap<String,String> updatePassword){
+    public ResponseEntity<HashMap<String, Boolean>> changeUserPassword(@PathVariable("user_id") Long user_id,
+            @RequestBody HashMap<String, String> updatePassword) {
         // System.out.println(updatePassword);
-        return new ResponseEntity<>(userService.changeUserPassword(updatePassword.get("user_password"), user_id),HttpStatus.OK);
+        return new ResponseEntity<>(userService.changeUserPassword(updatePassword.get("user_password"), user_id),
+                HttpStatus.OK);
     }
 
-    
+    @PostMapping("/reset")
+    public ResponseEntity<HashMap<String, Boolean>> sendResetPasswordLink(@RequestBody HashMap<String, String> reset) {
+        // System.out.println(updatePassword);
+        // ResetPasswordMailSender.mailSend();?
+        return new ResponseEntity<>(userService.sendResetPasswordLink(reset.get("user_phone"), reset.get("user_email")),
+                HttpStatus.OK);
+    }
+
+  
+
+    @GetMapping("/phone/{key}")
+    public ResponseEntity<Optional<UserModel>> sendResetPasswordLink(@PathVariable("key") String key) {
+        System.out.println("insie");
+        return new ResponseEntity<>(userService.getUserDataByPhoneNumber(key), HttpStatus.OK);
+    }
+
 }
