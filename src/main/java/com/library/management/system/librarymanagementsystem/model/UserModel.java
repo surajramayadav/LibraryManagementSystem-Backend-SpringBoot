@@ -1,4 +1,5 @@
 package com.library.management.system.librarymanagementsystem.model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 
 public class UserModel {
     @Id
@@ -16,34 +17,40 @@ public class UserModel {
     private Long user_id;
     @Column(name = "user_name")
     private String user_name;
-    @Column(name = "user_phone",unique = true)
+    @Column(name = "user_phone", unique = true)
     private Long user_phone;
     @Column(name = "user_address")
     private String user_address;
+    @Column(name = "user_email",unique = true,nullable = false)
+    private String user_email;
 
-    @Column(name = "user_password",nullable = false)
-    private String user_password="123456";   
+    @Column(name = "user_password", nullable = false)
+    private String user_password = "123456";
 
     public UserModel() {
     }
 
-    public UserModel(Long user_id, String user_name, Long user_phone, String user_address, String user_password) {
+   
+
+    // public String getUser_password() {
+    // return user_password;
+    // }
+
+    public UserModel(Long user_id, String user_name, Long user_phone, String user_address, String user_email,
+            String user_password) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_phone = user_phone;
         this.user_address = user_address;
+        this.user_email = user_email;
         this.user_password = user_password;
     }
 
 
-    // public String getUser_password() {
-    //     return user_password;
-    // }
 
     public void setUser_password(String user_password) {
         this.user_password = user_password;
     }
-
 
     public Long getUser_id() {
         return user_id;
@@ -56,6 +63,18 @@ public class UserModel {
     public String getUser_name() {
         return user_name;
     }
+
+    public String getUser_email() {
+        return user_email;
+    }
+
+
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
+
+
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
@@ -77,13 +96,10 @@ public class UserModel {
         this.user_address = user_address;
     }
 
-
     @Override
     public String toString() {
         return "UserModel [ user_address=" + user_address
                 + ", user_id=" + user_id + ", user_name=" + user_name + ", user_phone=" + user_phone + "]";
     }
 
-    
-    
 }

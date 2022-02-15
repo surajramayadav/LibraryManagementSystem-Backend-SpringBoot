@@ -1,2 +1,9 @@
 2022-02-10 18:13:56,620 ERROR c.l.m.s.l.LibraryManagementSystemApplication [restartedMain] hii
 23 2022-02-10 18:19:20,479 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-1] Admin Not Found
+23 2022-02-11 10:27:58,930 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-2] User Phone Number And Password Invalid
+23 2022-02-11 10:37:32,230 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-1] Username And Password Invalid
+23 2022-02-14 09:27:30,488 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-2] User Phone Number And Password Invalid
+23 2022-02-14 09:27:39,293 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-3] User Phone Number And Password Invalid
+142 2022-02-14 12:22:29,340 ERROR o.h.e.j.s.SqlExceptionHelper [http-nio-5000-exec-2] Duplicate entry '44664741464' for key 'book.UK_7xa554b1vghpa2wt12xcu96h1'
+33 2022-02-14 12:22:31,731 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-2] could not execute statement; SQL [n/a]; constraint [book.UK_7xa554b1vghpa2wt12xcu96h1]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+23 2022-02-14 13:47:34,719 ERROR c.l.m.s.l.e.GlobalExceptionHandler [http-nio-5000-exec-3] Username And Password Invalid

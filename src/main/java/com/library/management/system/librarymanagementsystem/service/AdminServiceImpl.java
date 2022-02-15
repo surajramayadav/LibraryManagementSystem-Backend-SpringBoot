@@ -34,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
     public HashMap<String,Boolean> addAdmin(HashMap<String,String> admin) {   
         boolean flag = false;
         CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        // encrypt admin password
         String encryptedPassword = cryptoGraphy.setEncrpytedData(admin.get("admin_password"));
         // System.out.println(encryptedPassword);
         AdminModel adminModel = new AdminModel();
@@ -106,6 +107,7 @@ public class AdminServiceImpl implements AdminService {
     public  HashMap<String,Boolean> changeAdminPassword(String admin_password, long admin_id) {
         boolean flag = false;
         CryptoGraphy cryptoGraphy = new CryptoGraphy();
+        // decryt admin password
         String encryptedPassword = cryptoGraphy.setEncrpytedData(admin_password);
         Optional<AdminModel> isAdminExits = adminrepo.findById(admin_id);
         if (isAdminExits.isPresent()) {
@@ -122,9 +124,11 @@ public class AdminServiceImpl implements AdminService {
     public  AdminModel loginAdmin(String admin_username, String admin_password) {
         // boolean flag = false;
         AdminModel admin;
+        // login with username and get admin password in encrypted format
         String encryptedPassword = adminrepo.loginWithAdmin(admin_username);
         if (encryptedPassword != null) {
             CryptoGraphy cryptoGraphy = new CryptoGraphy();
+            //decrpyt admin password
             String decryptedPassword = cryptoGraphy.getDecrpytedData(encryptedPassword);
             if (decryptedPassword.equals(admin_password)) {
                 // flag = true;

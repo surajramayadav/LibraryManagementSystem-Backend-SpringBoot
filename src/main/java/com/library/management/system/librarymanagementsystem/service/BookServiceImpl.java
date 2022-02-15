@@ -35,10 +35,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public HashMap<String, Boolean> addBook(HashMap<String, String> book) {
         boolean flag = false;
+        // get genre info using book name
         GenreModel genreData = genreRepository.getGenreDataByType(book.get("genre_type"));
         // System.out.println(genreData);
+        // checking genre is exists or not 
         if (genreData != null) {
-
+            // adding book
             if (genreData.getGenre_type().equals(book.get("genre_type"))) {
                 BookModel newBook = new BookModel();
                 newBook.setBook_author(book.get("book_author"));
@@ -54,12 +56,13 @@ public class BookServiceImpl implements BookService {
             }
 
         } else {
-
+            // genre is not found then adding genre
             GenreModel newGenre = new GenreModel();
             newGenre.setGenre_type(book.get("genre_type"));
             if (genreRepository.save(newGenre) != null) {
                 GenreModel newGenreData = genreRepository.getGenreDataByType(book.get("genre_type"));
                 // System.out.print(newGenre);
+                //adding book
                 BookModel newBook = new BookModel();
                 newBook.setBook_author(book.get("book_author"));
                 newBook.setBook_isbn(book.get("book_isbn"));
@@ -133,9 +136,11 @@ public class BookServiceImpl implements BookService {
             String genre_type,
             Long book_quantity, Long book_id) {
         boolean flag = false;
+        // checking book is exists
         Optional<BookModel> bookData = bookRepository.findById(book_id);
         if (bookData.isPresent()) {
             GenreModel genreModel = genreRepository.getGenreDataByType(genre_type);
+            // checking genre exists or not
             if (genreModel != null) {
                 if (genreModel.getGenre_type().equals(genre_type)) {
                     bookRepository.updatebookById(book_name, book_isbn, book_quantity, book_author,

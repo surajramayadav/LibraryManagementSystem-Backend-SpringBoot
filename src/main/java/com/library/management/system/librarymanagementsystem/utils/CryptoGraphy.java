@@ -14,6 +14,7 @@ public class CryptoGraphy {
 	FileInputStream fileInputStream =null;
 	Key key=null;
 	
+	// initalizing my key store file
 	public CryptoGraphy() {
 		try {
 			keyStore=KeyStore.getInstance("JCEKS");
@@ -26,6 +27,7 @@ public class CryptoGraphy {
 		}
 	}
 	
+	// creating encryptionUsingAES
 	private String encryptionUsingAES(String data,byte[] key) {
 		String encryptionUsingAES=null;
 		try {
@@ -42,6 +44,7 @@ public class CryptoGraphy {
 		return encryptionUsingAES;
 	}
 	
+	// creating decryptionUsingAES
 	private String decryptionUsingAES(String data,byte[] key) {
 		String decryptionUsingAES=null;
 		try {
@@ -58,6 +61,7 @@ public class CryptoGraphy {
 		return decryptionUsingAES;
 	}
 	
+	// encrypt data using AES
 	public String setEncrpytedData (String password) {
 		String getEncrpytedData=null;
 		try {
@@ -67,7 +71,7 @@ public class CryptoGraphy {
 		}
 		return getEncrpytedData;
 	}
-	
+	// decrpt data using AES
 	public String getDecrpytedData (String encryptedPassword) {
 		String getDecrpytedData=null;
 		try {

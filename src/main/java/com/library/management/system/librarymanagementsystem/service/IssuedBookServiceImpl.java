@@ -45,12 +45,15 @@ public class IssuedBookServiceImpl implements IssuedBookService {
         boolean flag = false;
         System.out.println(issueData);
         if (issueData != null) {
+            // get details from admin id
             AdminModel adminData = adminRepo.getById(Long.parseLong(issueData.get("admin_id")));
             if(adminData != null){
                 System.out.println(adminData);
+                // get details from user id
                 UserModel userData = userRepo.getById(Long.parseLong(issueData.get("user_id")));
                 if(userData != null){
                     System.out.println(userData);
+                    // get details from book id
                     BookModel bookData = bookRepo.getById(Long.parseLong(issueData.get("book_id")));
                     if(bookData != null){
                         System.out.println(bookData);
@@ -59,6 +62,7 @@ public class IssuedBookServiceImpl implements IssuedBookService {
                         issuedBookModel.setBookModel(bookData);
                         issuedBookModel.setUserModel(userData);
                         long quantity =bookData.getBook_quantity();
+                        //checking book available or not
                         if(quantity > 0){
                             if (issueRepo.save(issuedBookModel) != null) {
                                 long sum=quantity -1;
